@@ -20,8 +20,8 @@ public class Config{
                 .csrf(c -> c.disable())
                 .oauth2Login(withDefaults())
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/customers").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/events").authenticated()
+                        .requestMatchers("/user").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/customers").authenticated()
                         .anyRequest().permitAll()
                 )
         ;
