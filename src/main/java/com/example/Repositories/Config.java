@@ -20,7 +20,7 @@ public class Config{
                 .csrf(c -> c.disable())
                 .oauth2Login(withDefaults())
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/user").authenticated()
+                        .requestMatchers("/authorise").authenticated()
                         .requestMatchers(HttpMethod.POST, "/events").authenticated()
                         .anyRequest().permitAll()
                 )

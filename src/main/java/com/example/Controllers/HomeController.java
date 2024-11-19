@@ -12,7 +12,7 @@ public class HomeController {
     public ResponseEntity get(){
         return ResponseEntity.ok("something!");
     }
-    @GetMapping("/login")
+    @GetMapping("/authorise")
     public String getUser(OAuth2AuthenticationToken authentication){
         // var groups = (List<String>)authentication.getPrincipal().getAttribute("groups");
         // return groups.get(0);
