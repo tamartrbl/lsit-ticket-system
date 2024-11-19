@@ -21,7 +21,7 @@ public class Config{
                 .oauth2Login(withDefaults())
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/user").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/customers").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/events").authenticated()
                         .anyRequest().permitAll()
                 )
         ;
