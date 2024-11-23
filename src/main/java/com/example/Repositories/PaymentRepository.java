@@ -10,35 +10,46 @@ import java.util.UUID;
 public class PaymentRepository {
     private final HashMap<UUID, Payment> payments = new HashMap<>();
 
+    // Add a new payment
     public void add(Payment payment) {
-        payments.put(payment.getId(), payment);
+        payments.put(payment.id, payment);
     }
 
-    public Payment getByTicketId(UUID ticketId) {
-        return payments.values().stream()
-                .filter(payment -> ticketId.equals(payment.getEventId()))
-                .findFirst()
-                .orElse(null);
-    }
-
+    // Retrieve a payment by its ID
     public Payment get(UUID id) {
         return payments.get(id);
     }
 
-    public void update(Payment payment) {
-        payments.put(payment.getId(), payment);
+    // Retrieve a payment by customer and event ID
+    public Payment getByCustomerAndEvent(UUID customerId, UUID eventId) {
+        return payments.values().stream()
+                .filter(payment -> payment.customer.equals(customerId) && payment.event.equals(eventId))
+                .findFirst()
+                .orElse(null);
     }
 
+    // Update a payment (by replacing the existing payment with the same ID)
+    public void update(Payment payment) {
+        if (payments.containsKey(payment.id)) {
+            payments.put(payment.id, payment);
+        }
+    }
+
+    // Process a refund for a given payment ID
     public boolean processRefund(UUID paymentId) {
         Payment payment = payments.get(paymentId);
-        if (payment == null) {
+        if (payment == null || payment.state != Payment.PaymentState.COMPLETED) {
             return false;
         }
 
-        // Simulate refund logic
-        // In a real application, integrate with a payment provider (e.g., iDEAL)
-        payment.setStatus("REFUNDED");
-        update(payment);
+        // Simulate refund logic: Update payment state to FAILED
+        payment.state = Payment.PaymentState.FAILED;
+        payments.put(payment.id, payment); // Update in the repository
         return true;
+    }
+
+    // List all payments
+    public HashMap<UUID, Payment> list() {
+        return payments;
     }
 }
