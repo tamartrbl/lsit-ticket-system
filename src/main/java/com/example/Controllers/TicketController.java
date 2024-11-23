@@ -13,9 +13,11 @@ import java.util.UUID;
 @RequestMapping("/tickets")
 public class TicketController {
     private final TicketRepository ticketRepository;
+    private final RefundService refundService;
 
-    public TicketController(TicketRepository ticketRepository) {
+    public TicketController(TicketRepository ticketRepository, RefundService refundService) {
         this.ticketRepository = ticketRepository;
+        this.refundService = refundService;
     }
 
     @GetMapping
