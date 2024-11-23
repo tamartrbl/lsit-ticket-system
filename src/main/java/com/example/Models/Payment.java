@@ -26,3 +26,4 @@ public class Payment {
         this.state = PaymentState.PENDING;
         this.timestamp = java.time.Instant.now().toString();
     }
+}
