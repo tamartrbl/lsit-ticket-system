@@ -14,22 +14,22 @@ import java.util.UUID;
 public class TicketController {
     private final TicketRepository ticketRepository;
 
-    public EventController(TicketRepository ticketRepository) {
+    public TicketController(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
 
     @GetMapping
-    public List<Event> list() {
+    public List<Ticket> list() {
         return ticketRepository.list();
     }
 
     @GetMapping("/{id}")
-    public Event get(@PathVariable UUID id) {
+    public Ticket get(@PathVariable UUID id) {
         return ticketRepository.get(id);
     }
 
     @PostMapping
-    public Event add(@RequestBody Ticket ticket) {
+    public Ticket add(@RequestBody Ticket ticket) {
         ticketRepository.add(ticket);
         return ticket;
     }
@@ -39,13 +39,8 @@ public class TicketController {
         ticketRepository.remove(id);
     }
 
-    @
-    public void update(@PathVariable UUID id) {
-        ticketRepository.remove(id);
-    }
-
     @PutMapping("/{id}")
-    public Customer update(@PathVariable UUID id, @RequestBody Ticket ticket) {
+    public Ticket update(@PathVariable UUID id, @RequestBody Ticket ticket) {
         ticket.id = id;
         ticketRepository.update(ticket);
         return ticket;
