@@ -45,5 +45,10 @@ public class TicketController {
         ticketRepository.update(ticket);
         return ticket;
     }
+    
+    @PostMapping("/{ticketId}/refund")
+    public String refund(@PathVariable UUID ticketId) {
+        return refundService.processRefund(ticketId);
+    }
 
 }
