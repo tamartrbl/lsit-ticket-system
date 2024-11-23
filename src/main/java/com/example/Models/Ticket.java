@@ -3,7 +3,7 @@ import java.util.UUID;
 
 public class Ticket {
     public UUID id;
-    public String customer_email;
+    public String customerEmail;
     private TicketState state;
     public double price;
 
@@ -17,10 +17,10 @@ public class Ticket {
 
     public Ticket() {}
 
-    public Ticket(String customer_email, double price) {
+    public Ticket(String customerEmail, double price) {
         this.id = UUID.randomUUID();
         this.price = price;
-        this.customer_email = customer_email;
+        this.customerEmail = customerEmail;
         this.state = TicketState.NOT_ISSUED;
 
     }
