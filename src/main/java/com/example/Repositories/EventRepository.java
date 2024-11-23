@@ -18,7 +18,6 @@ public class EventRepository {
         events.put(event.id, event);
     }
 
-
     public Event get(UUID id) {
         return events.get(id);
     }

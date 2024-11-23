@@ -6,6 +6,9 @@ public class Ticket {
     public String customerEmail;
     public TicketState state;
     public double price;
+    public Event event;
+    public Customer customer;
+
 
     public enum TicketState {
         NOT_ISSUED, // The ticket is unassigned
@@ -15,12 +18,19 @@ public class Ticket {
         FROZEN;      // The ticket is temporarily frozen
     }
 
-    public Ticket() {}
+    public Ticket() {
+        this.id = UUID.randomUUID();
+        this.price = 0.0;
+        this.customer = null;
+        this.event = null;
+        this.state = TicketState.NOT_ISSUED;
+    }
 
-    public Ticket(String customerEmail, double price) {
+    public Ticket(Event event, Customer customer, double price) {
         this.id = UUID.randomUUID();
         this.price = price;
-        this.customerEmail = customerEmail;
+        this.event = event;
+        this.customer = customer;
         this.state = TicketState.NOT_ISSUED;
 
     }

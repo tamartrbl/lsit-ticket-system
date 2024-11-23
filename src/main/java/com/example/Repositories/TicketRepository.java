@@ -1,12 +1,11 @@
 package com.example.Repositories;
 
+import com.example.Models.Event;
 import com.example.Models.Ticket;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.Models.Ticket.TicketState.*;
 
@@ -53,6 +52,26 @@ public class TicketRepository {
         Ticket existingTicket = tickets.get(ticket.id);
         if (existingTicket != null && (existingTicket.state == ISSUED || existingTicket.state == FROZEN)) {
             existingTicket.state = CANCELLED;
+        }
+    }
+
+    public List<Ticket> getEventTickets(Event event){
+        List<Ticket> allEventTickets = new ArrayList<>();
+
+        for (Ticket ticket : tickets.values()) {
+            if (ticket.event.id.equals(event.id)) {
+                allEventTickets.add(ticket);
+            }
+        }
+        return allEventTickets;
+    }
+
+    public void generateEventTickets(Event event){
+        int numOfTickets = event.eventCapacity;
+
+        for(int i = 0; i < numOfTickets; i++){
+            Ticket ticket = new Ticket();
+            add(ticket);
         }
     }
 
