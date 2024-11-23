@@ -4,7 +4,7 @@ import java.util.UUID;
 public class Ticket {
     public UUID id;
     public String customerEmail;
-    private TicketState state;
+    public TicketState state;
     public double price;
 
     enum TicketState {
