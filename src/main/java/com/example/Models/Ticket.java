@@ -34,6 +34,11 @@ public class Ticket {
         this.state = TicketState.NOT_ISSUED;
 
     }
+    
+    public boolean isRefundable() {
+        // Refund policy: Tickets can only be refunded if they are in FROZEN or ISSUED state
+        return this.state == TicketState.FROZEN || this.state == TicketState.ISSUED;
+    }
 }
 
 
