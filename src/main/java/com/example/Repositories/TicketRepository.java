@@ -14,7 +14,6 @@ public class TicketRepository {
     private final HashMap<UUID, Ticket> tickets = new HashMap<>();
 
     public void add(Ticket ticket) {
-        ticket.id = UUID.randomUUID();
         tickets.put(ticket.id, ticket);
     }
 
