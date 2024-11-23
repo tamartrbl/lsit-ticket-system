@@ -7,7 +7,7 @@ public class Ticket {
     public TicketState state;
     public double price;
 
-    enum TicketState {
+    public enum TicketState {
         NOT_ISSUED, // The ticket is unassigned
         ISSUED,     //The ticket has been issued to a customer
         SCANNED,     //The ticket has been scanned at event and cannot be reused
