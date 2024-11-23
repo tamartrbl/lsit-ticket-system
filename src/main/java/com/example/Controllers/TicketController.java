@@ -13,8 +13,8 @@ import java.util.UUID;
 @RequestMapping("/tickets")
 public class TicketController {
     private final TicketRepository ticketRepository;
-    private final RefundService refundService;
-
+    private final PaymentRepository paymentRepository;
+    
     public TicketController(TicketRepository ticketRepository, RefundService refundService) {
         this.ticketRepository = ticketRepository;
         this.refundService = refundService;
@@ -50,7 +50,41 @@ public class TicketController {
     
     @PostMapping("/{ticketId}/refund")
     public String refund(@PathVariable UUID ticketId) {
-        return refundService.processRefund(ticketId);
-    }
+        Ticket ticket = ticketRepository.get(ticketId);
+        if (ticket == null) {
+            return "Ticket not found!";
+        }
 
+        if (!ticket.isRefundable()) {
+            return "Refund not applicable for this ticket!";
+        }
+
+        // Fetch associated payment
+        Payment payment = paymentRepository.getByTicketId(ticketId);
+        if (payment == null || !"COMPLETED".equals(payment.getStatus())) {
+            return "Payment not found or not eligible for refund!";
+        }
+
+        // Freeze the ticket during refund process
+        ticket.state = Ticket.TicketState.FROZEN;
+        ticketRepository.update(ticket);
+
+        // Process refund
+        boolean refundSuccess = paymentRepository.processRefund(payment.getId());
+
+        if (refundSuccess) {
+            ticket.state = Ticket.TicketState.CANCELLED; // Mark ticket as cancelled
+            ticketRepository.update(ticket);
+
+            payment.setStatus("REFUNDED"); // Update payment status
+            paymentRepository.update(payment);
+
+            return "Refund processed successfully!";
+        } else {
+            ticket.state = Ticket.TicketState.FROZEN; // Keep ticket frozen if refund fails
+            ticketRepository.update(ticket);
+
+            return "Refund failed! Ticket is frozen.";
+        }
+    }
 }
