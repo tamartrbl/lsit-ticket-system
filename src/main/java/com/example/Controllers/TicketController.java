@@ -50,24 +50,28 @@ public class TicketController {
     
     @PostMapping("/{ticketId}/refund")
     public String refund(@PathVariable UUID ticketId) {
-        // Get the ticket
         Ticket ticket = ticketRepository.get(ticketId);
         if (ticket == null) {
             return "Ticket not found!";
         }
 
-        // Check if the ticket is eligible for a refund
+        // Validate if ticket is refundable
         if (!ticket.isRefundable()) {
             return "Refund not applicable for this ticket!";
         }
 
-        // Find the associated payment
-        Payment payment = paymentRepository.getByCustomerAndEvent(UUID.fromString(ticket.customerEmail), ticket.id); // Assuming ticket.customerEmail is UUID-compatible
-        if (payment == null || payment.state != Payment.PaymentState.COMPLETED) {
-            return "Payment not found or not eligible for refund!";
+        // Fetch associated payment using customer and event IDs
+        Payment payment = paymentRepository.getByCustomerAndEvent(ticket.customer.id, ticket.event.id);
+        if (payment == null) {
+            return "Payment not found for the ticket!";
         }
 
-        // Freeze the ticket during refund process
+        // Ensure the payment state is COMPLETED
+        if (payment.state != Payment.PaymentState.COMPLETED) {
+            return "Payment is not eligible for refund!";
+        }
+
+        // Freeze the ticket while processing the refund
         ticket.state = Ticket.TicketState.FROZEN;
         ticketRepository.update(ticket);
 
@@ -75,20 +79,21 @@ public class TicketController {
         boolean refundSuccess = paymentRepository.processRefund(payment.id);
 
         if (refundSuccess) {
-            // Update ticket and payment states
+            // Mark the ticket as CANCELLED if the refund is successful
             ticket.state = Ticket.TicketState.CANCELLED;
             ticketRepository.update(ticket);
 
-            payment.state = Payment.PaymentState.FAILED; // Reflect the refund status
+            // Update the payment state to REFUNDED
+            payment.state = Payment.PaymentState.FAILED; // Use FAILED as a refund marker (or adjust if needed)
             paymentRepository.update(payment);
 
             return "Refund processed successfully!";
         } else {
-            // Keep the ticket frozen if the refund fails
+            // Keep the ticket frozen if refund fails
             ticket.state = Ticket.TicketState.FROZEN;
             ticketRepository.update(ticket);
 
-            return "Refund failed! Ticket is frozen.";
+            return "Refund failed! Ticket remains frozen.";
         }
     }
 }
