@@ -45,7 +45,7 @@ public class TicketRepository {
     public void scan(Ticket ticket) {
         Ticket existingTicket = tickets.get(ticket.id);
         if (existingTicket != null && existingTicket.state == ISSUED) {
-            existingTicket.state = FROZEN;
+            existingTicket.state = SCANNED;
         }
     }
 
@@ -55,7 +55,7 @@ public class TicketRepository {
             existingTicket.state = CANCELLED;
         }
     }
-    
+
     public Ticket get(UUID id) {
         return tickets.get(id);
     }
