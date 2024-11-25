@@ -15,10 +15,11 @@ public class Payment {
     public enum PaymentState {
         PENDING,
         COMPLETED,
-        FAILED;
+        FAILED,
+        CANCELLED;
     }
 
-    public Payment(UUID customer, UUID event, String method, double amount) {
+    public Payment(UUID customer, UUID event, double amount) {
         this.id = UUID.randomUUID();
         this.customer = customer;
         this.event = event;

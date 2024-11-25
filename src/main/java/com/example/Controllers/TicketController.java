@@ -2,7 +2,9 @@ package com.example.Controllers;
 
 import com.example.Models.Customer;
 import com.example.Models.Event;
+import com.example.Models.Payment;
 import com.example.Models.Ticket;
+import com.example.Repositories.PaymentRepository;
 import com.example.Repositories.TicketRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +17,9 @@ public class TicketController {
     private final TicketRepository ticketRepository;
     private final PaymentRepository paymentRepository;
     
-    public TicketController(TicketRepository ticketRepository, RefundService refundService) {
+    public TicketController(TicketRepository ticketRepository, PaymentRepository paymentRepository) {
         this.ticketRepository = ticketRepository;
-        this.refundService = refundService;
+        this.paymentRepository = paymentRepository;
     }
 
     @GetMapping
@@ -72,8 +74,7 @@ public class TicketController {
         }
 
         // Freeze the ticket while processing the refund
-        ticket.state = Ticket.TicketState.FROZEN;
-        ticketRepository.update(ticket);
+        ticketRepository.freeze(ticket);
 
         // Process the refund
         boolean refundSuccess = paymentRepository.processRefund(payment.id);

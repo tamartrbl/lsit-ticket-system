@@ -42,8 +42,8 @@ public class PaymentRepository {
             return false;
         }
 
-        // Simulate refund logic: Update payment state to FAILED
-        payment.state = Payment.PaymentState.FAILED;
+        // Simulate refund logic: Update payment state to CANCELLED
+        payment.state = Payment.PaymentState.CANCELLED;
         payments.put(payment.id, payment); // Update in the repository
         return true;
     }
