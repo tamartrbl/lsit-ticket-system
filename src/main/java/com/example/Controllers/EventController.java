@@ -38,7 +38,6 @@ public class EventController {
     @PostMapping
     public Event add(@RequestBody Event event) {
         eventRepository.add(event);
-        ticketRepository.generateEventTickets(event);
         return event;
     }
 
