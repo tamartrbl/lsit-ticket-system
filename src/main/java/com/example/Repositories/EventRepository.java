@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class EventRepository {
+public class EventRepository implements IEventRepository {
     private final HashMap<UUID, Event> events = new HashMap<>();
 
     public void add(Event event) {

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class CustomerRepository {
+public class CustomerRepository implements ICustomerRepository {
     static HashMap<UUID, Customer> customers = new HashMap<>();
 
     public void add(Customer customer) {
