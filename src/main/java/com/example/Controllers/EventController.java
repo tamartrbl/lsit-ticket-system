@@ -1,7 +1,7 @@
 package com.example.Controllers;
 
 import com.example.Models.Event;
-import com.example.Repositories.EventRepository;
+import com.example.Repositories.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,10 +10,19 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/events")
 public class EventController {
+    private final CustomerRepository customerRepository;
     private final EventRepository eventRepository;
+    private final SignupRepository signupRepository;
+    private final PaymentRepository paymentRepository;
+    private final TicketRepository ticketRepository;
 
-    public EventController(EventRepository eventRepository) {
+    public EventController(CustomerRepository customerRepository, EventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
+                              TicketRepository ticketRepository) {
+        this.customerRepository = customerRepository;
         this.eventRepository = eventRepository;
+        this.signupRepository = signupRepository;
+        this.paymentRepository = paymentRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @GetMapping
@@ -29,6 +38,7 @@ public class EventController {
     @PostMapping
     public Event add(@RequestBody Event event) {
         eventRepository.add(event);
+        ticketRepository.generateEventTickets(event);
         return event;
     }
 
