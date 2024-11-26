@@ -1,6 +1,8 @@
 package com.example.Repositories;
 import com.example.Models.Event;
 import com.example.Models.Ticket;
+import com.example.Models.Ticket.TicketState;
+
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import static com.example.Models.Ticket.TicketState.*;
@@ -67,6 +69,18 @@ public class TicketRepository {
         }
         return allEventTickets;
     }
+
+    public List<Ticket> getEventTicketsByStatus(Event event, TicketState state){
+        List<Ticket> allEventTickets = new ArrayList<>();
+
+        for (Ticket ticket : tickets.values()) {
+            if (ticket.event.id.equals(event.id) && ticket.state.equals(state)) {
+                allEventTickets.add(ticket);
+            }
+        }
+        return allEventTickets;
+    }
+
 
     public void generateEventTickets(Event event){
         int numOfTickets = event.eventCapacity;

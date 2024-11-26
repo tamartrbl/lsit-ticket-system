@@ -65,8 +65,12 @@ public class CustomerController {
             return "Customer or Event not found!";
         }
 
-        signupRepository.signup(customerId, eventId);
-        
+        if (event.ticketAvailable > 0){
+            signupRepository.signup(customerId, eventId);
+        } else {
+            return "No more spots available!";
+        }
+
         List<UUID> signedUpEvents = signupRepository.getSignedUpEvents(customerId);
         if (!signedUpEvents.contains(eventId)) {
             return "Customer is not signed up for the event!";
@@ -79,24 +83,24 @@ public class CustomerController {
         //THEN ISSUE THE TICKET
         if (paymentSuccess) {
             // Create a successful payment record
-            Payment payment = new Payment(customerId, eventId, 100.0); // Replace 100.0 with actual event price
+            Payment payment = new Payment(customerId, eventId, event.price); // Replace 100.0 with actual event price
             payment.state = Payment.PaymentState.COMPLETED;
 
             // Issue the ticket
-            Ticket ticket = new Ticket();
-            ticket.customer = customerRepository.get(customerId);
-            ticket.event = eventRepository.get(eventId);
-            ticket.price = payment.amount;
-            ticket.state = Ticket.TicketState.ISSUED;
+            Ticket ticket = new Ticket(event, customer, payment.amount);
 
             // Add the payment and ticket records
             paymentRepository.add(payment);
             ticketRepository.add(ticket);
 
+            event.ticketAvailable--;
+
+            eventRepository.update(event);
+
             return "Payment successful! Ticket issued.";
         } else {
             // Create a failed payment record
-            Payment payment = new Payment(customerId, eventId, 100.0); // Replace 100.0 with actual event price
+            Payment payment = new Payment(customerId, eventId, event.price); // Replace 100.0 with actual event price
             payment.state = Payment.PaymentState.FAILED;
 
             // Add the failed payment record

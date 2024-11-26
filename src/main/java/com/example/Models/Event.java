@@ -7,17 +7,19 @@ public class Event {
     public String name;
     public String location;
     public String date;
-    public int eventCapacity;
+    public final int eventCapacity;
+    public int ticketAvailable;
+    public double price;
 
-
-    public Event() {}
-
-    public Event(String name, String location, String date, int eventCapacity) {
+    public Event(String name, String location, String date, int eventCapacity, double price) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.location = location;
         this.date = date;
         this.eventCapacity = eventCapacity;
+        this.ticketAvailable = eventCapacity;
+        this.price = price;
+
     }
 }
 

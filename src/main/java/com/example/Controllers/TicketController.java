@@ -4,6 +4,7 @@ import com.example.Models.Customer;
 import com.example.Models.Event;
 import com.example.Models.Payment;
 import com.example.Models.Ticket;
+import com.example.Models.Payment.PaymentState;
 import com.example.Repositories.PaymentRepository;
 import com.example.Repositories.TicketRepository;
 import org.springframework.web.bind.annotation.*;
@@ -85,8 +86,9 @@ public class TicketController {
             ticketRepository.update(ticket);
 
             // Update the payment state to REFUNDED
-            payment.state = Payment.PaymentState.FAILED; // Use FAILED as a refund marker (or adjust if needed)
-            paymentRepository.update(payment);
+
+            Payment refund = new Payment(ticketId, ticketId, -payment.amount, PaymentState.COMPLETED);
+            paymentRepository.add(refund);
 
             return "Refund processed successfully!";
         } else {

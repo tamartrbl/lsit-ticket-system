@@ -31,7 +31,7 @@ public class Ticket {
         this.price = price;
         this.event = event;
         this.customer = customer;
-        this.state = TicketState.NOT_ISSUED;
+        this.state = TicketState.ISSUED;
 
     }
     

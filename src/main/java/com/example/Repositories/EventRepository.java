@@ -1,6 +1,6 @@
 package com.example.Repositories;
 
-import com.example.Models.Customer;
+import com.example.Models.Event;
 import com.example.Models.Event;
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +29,16 @@ public class EventRepository {
     public void remove(UUID id) {
         events.remove(id);
     }
+
+    public void update(Event event) {
+        Event existingEvent = events.get(event.id);
+        if (existingEvent != null) {
+            existingEvent.name = event.name;
+            existingEvent.location = event.location;
+            existingEvent.date = event.date;
+            existingEvent.ticketAvailable = event.eventCapacity;
+            existingEvent.price = event.price;
+        }
+    }
+
 }

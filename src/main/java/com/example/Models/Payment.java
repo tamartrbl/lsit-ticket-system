@@ -27,4 +27,15 @@ public class Payment {
         this.state = PaymentState.PENDING;
         this.timestamp = java.time.Instant.now().toString();
     }
+
+    public Payment(UUID customer, UUID event, double amount, PaymentState status) {
+        this.id = UUID.randomUUID();
+        this.customer = customer;
+        this.event = event;
+        this.amount = amount;
+        this.state = status;
+        this.timestamp = java.time.Instant.now().toString();
+    }
+
+    
 }
