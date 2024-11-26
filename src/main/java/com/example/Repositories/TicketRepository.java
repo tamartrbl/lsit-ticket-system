@@ -1,12 +1,8 @@
 package com.example.Repositories;
-
 import com.example.Models.Event;
 import com.example.Models.Ticket;
 import org.springframework.stereotype.Repository;
-
 import java.util.*;
-import java.util.stream.Collectors;
-
 import static com.example.Models.Ticket.TicketState.*;
 
 @Repository
@@ -37,6 +33,13 @@ public class TicketRepository {
         Ticket existingTicket = tickets.get(ticket.id);
         if (existingTicket != null && (existingTicket.state == ISSUED || existingTicket.state == CANCELLED || existingTicket.state == SCANNED) ) {
             existingTicket.state = FROZEN;
+        }
+    }
+
+    public void unfreeze(Ticket ticket) {
+        Ticket existingTicket = tickets.get(ticket.id);
+        if (existingTicket != null && existingTicket.state == FROZEN ) {
+            existingTicket.state = ISSUED;
         }
     }
 
