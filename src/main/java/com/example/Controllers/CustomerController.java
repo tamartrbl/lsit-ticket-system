@@ -66,22 +66,7 @@ public class CustomerController {
         }
 
         signupRepository.signup(customerId, eventId);
-        return "Customer signed up for the event successfully!";
-    }
-
-    @PostMapping("/{customerId}/leave/{eventId}")
-    public String leave(@PathVariable UUID customerId, @PathVariable UUID eventId) {
-        signupRepository.leave(customerId, eventId);
-        return "Customer removed from the event!";
-    }
-
-    @GetMapping("/{customerId}/events")
-    public List<UUID> getSignedUpEvents(@PathVariable UUID customerId) {
-        return signupRepository.getSignedUpEvents(customerId);
-    }
-    @PostMapping("/{customerId}/pay/{eventId}")
-    public String pay(@PathVariable UUID customerId, @PathVariable UUID eventId) {
-        // Check if the customer is signed up for the event
+        
         List<UUID> signedUpEvents = signupRepository.getSignedUpEvents(customerId);
         if (!signedUpEvents.contains(eventId)) {
             return "Customer is not signed up for the event!";
@@ -120,5 +105,17 @@ public class CustomerController {
             return "Payment failed. Please try again.";
         }
     }
+
+    @PostMapping("/{customerId}/leave/{eventId}")
+    public String leave(@PathVariable UUID customerId, @PathVariable UUID eventId) {
+        signupRepository.leave(customerId, eventId);
+        return "Customer removed from the event!";
+    }
+
+    @GetMapping("/{customerId}/events")
+    public List<UUID> getSignedUpEvents(@PathVariable UUID customerId) {
+        return signupRepository.getSignedUpEvents(customerId);
+    }
+    
 }
 
