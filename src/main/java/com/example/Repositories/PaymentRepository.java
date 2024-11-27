@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Repository
-public class PaymentRepository {
+public class PaymentRepository implements IPaymentRepository {
     private final HashMap<UUID, Payment> payments = new HashMap<>();
 
     // Add a new payment

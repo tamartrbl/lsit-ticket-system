@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public class SignupRepository {
+public class SignupRepository implements ISignupRepository {
     private final Map<UUID, List<UUID>> customerEventMap = new HashMap<>();
 
     public void signup(UUID customerId, UUID eventId) {
