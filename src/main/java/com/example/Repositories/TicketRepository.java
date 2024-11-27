@@ -8,7 +8,7 @@ import java.util.*;
 import static com.example.Models.Ticket.TicketState.*;
 
 @Repository
-public class TicketRepository {
+public class TicketRepository implements ITicketRepository {
     private final HashMap<UUID, Ticket> tickets = new HashMap<>();
 
     public void add(Ticket ticket) {
