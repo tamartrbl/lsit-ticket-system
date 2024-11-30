@@ -34,8 +34,8 @@ public class S3CustomerRepository implements ICustomerRepository { //create inte
 
     final String BUCKET="ticketingsystem123";
     final String PREFIX="ticketing/customers/";
-    final String ACCESS_KEY="GOOG1ESDISC2L36V7ZM66BWRXCGSVRWN3TLKCVGKOSPEO5EDFZH7JQ6R3NIOC";
-    final String SECRET_KEY="RMjmuRZnitoVLndGKCDGVGu91QvTnJ68FUdld4Et";
+    //final String ACCESS_KEY="GOOG1ESDISC2L36V7ZM66BWRXCGSVRWN3TLKCVGKOSPEO5EDFZH7JQ6R3NIOC";
+    //final String SECRET_KEY="RMjmuRZnitoVLndGKCDGVGu91QvTnJ68FUdld4Et";
     final String ENDPOINT_URL="https://storage.googleapis.com";
 
 
