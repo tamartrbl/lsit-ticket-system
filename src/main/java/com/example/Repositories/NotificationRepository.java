@@ -26,6 +26,17 @@ public class NotificationRepository {
         return notifications.get(id);
     }
 
+//    public Notification getCustomerLastNotification(UUID customerId){
+//        return notifications.get()
+//    }
+
+    public Notification getCustomerLastNotification(UUID customerId) {
+        return notifications.values().stream()
+                .filter(notification -> notification.customerId.equals(customerId))
+                .max((n1, n2) -> n1.timestamp.compareTo(n2.timestamp))
+                .orElse(null);
+    }
+
     public List<Notification> listNotifications() {
         return new ArrayList<>(notifications.values());
     }
