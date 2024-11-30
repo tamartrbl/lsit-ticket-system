@@ -10,14 +10,14 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/events")
 public class EventController {
-    private final CustomerRepository customerRepository;
-    private final EventRepository eventRepository;
+    private final GCustomerRepository customerRepository;
+    private final GEventRepository eventRepository;
     private final SignupRepository signupRepository;
     private final PaymentRepository paymentRepository;
-    private final TicketRepository ticketRepository;
+    private final GTicketRepository ticketRepository;
 
-    public EventController(CustomerRepository customerRepository, EventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
-                              TicketRepository ticketRepository) {
+    public EventController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
+    GTicketRepository ticketRepository) {
         this.customerRepository = customerRepository;
         this.eventRepository = eventRepository;
         this.signupRepository = signupRepository;

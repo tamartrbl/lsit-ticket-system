@@ -5,6 +5,7 @@ import com.example.Models.Event;
 import com.example.Models.Payment;
 import com.example.Models.Ticket;
 import com.example.Models.Payment.PaymentState;
+import com.example.Repositories.GTicketRepository;
 import com.example.Repositories.PaymentRepository;
 import com.example.Repositories.TicketRepository;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
-    private final TicketRepository ticketRepository;
+    private final GTicketRepository ticketRepository;
     private final PaymentRepository paymentRepository;
     
-    public TicketController(TicketRepository ticketRepository, PaymentRepository paymentRepository) {
+    public TicketController(GTicketRepository ticketRepository, PaymentRepository paymentRepository) {
         this.ticketRepository = ticketRepository;
         this.paymentRepository = paymentRepository;
     }

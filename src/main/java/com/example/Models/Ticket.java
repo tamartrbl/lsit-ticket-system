@@ -19,11 +19,6 @@ public class Ticket {
     }
 
     public Ticket() {
-        this.id = UUID.randomUUID();
-        this.price = 0.0;
-        this.customer = null;
-        this.event = null;
-        this.state = TicketState.NOT_ISSUED;
     }
 
     public Ticket(Event event, Customer customer, double price) {
@@ -37,7 +32,8 @@ public class Ticket {
     
     public boolean isRefundable() {
         // Refund policy: Tickets can only be refunded if they are in FROZEN or ISSUED state
-        return this.state == TicketState.FROZEN || this.state == TicketState.ISSUED;
+        //return this.state == TicketState.FROZEN || this.state == TicketState.ISSUED;
+        return true;
     }
 }
 

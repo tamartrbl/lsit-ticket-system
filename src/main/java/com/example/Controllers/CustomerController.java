@@ -13,14 +13,14 @@ package com.example.Controllers;
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
-    private final CustomerRepository customerRepository;
-    private final EventRepository eventRepository;
+    private final GCustomerRepository customerRepository;
+    private final GEventRepository eventRepository;
     private final SignupRepository signupRepository;
     private final PaymentRepository paymentRepository; // Add this
-    private final TicketRepository ticketRepository;
+    private final GTicketRepository ticketRepository;
 
-    public CustomerController(CustomerRepository customerRepository, EventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
-                              TicketRepository ticketRepository) {
+    public CustomerController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
+    GTicketRepository ticketRepository) {
         this.customerRepository = customerRepository;
         this.eventRepository = eventRepository;
         this.signupRepository = signupRepository;

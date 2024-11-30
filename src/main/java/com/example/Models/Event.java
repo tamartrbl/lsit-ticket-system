@@ -7,9 +7,12 @@ public class Event {
     public String name;
     public String location;
     public String date;
-    public final int eventCapacity;
+    public int eventCapacity;
     public int ticketAvailable;
     public double price;
+
+    public Event() {
+    }
 
     public Event(String name, String location, String date, int eventCapacity, double price) {
         this.id = UUID.randomUUID();
