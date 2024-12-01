@@ -7,7 +7,7 @@ spring:
           gitlab:
             client-id: c2c5b8d8ea822bd48856efec1b163dff8ed9a823119c3ed363c4d7f3f75708eb
             client-secret: gloas-2be76c4d2cde34e14165a2a1aa415ce8e882d0616f3ad939f6ee06d6d8f365f2
-            scope: openid+profile+email+read_api
+            scope: openid+profile+email
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/gitlab
         provider:
