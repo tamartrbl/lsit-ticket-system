@@ -5,9 +5,7 @@ import com.example.Models.Event;
 import com.example.Models.Payment;
 import com.example.Models.Ticket;
 import com.example.Models.Payment.PaymentState;
-import com.example.Repositories.GTicketRepository;
-import com.example.Repositories.PaymentRepository;
-import com.example.Repositories.TicketRepository;
+import com.example.Repositories.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +14,19 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
+    private final GCustomerRepository customerRepository;
+    private final GEventRepository eventRepository;
+    private final SignupRepository signupRepository;
+    private final GPaymentRepository paymentRepository;
     private final GTicketRepository ticketRepository;
-    private final PaymentRepository paymentRepository;
     
-    public TicketController(GTicketRepository ticketRepository, PaymentRepository paymentRepository) {
-        this.ticketRepository = ticketRepository;
+    public TicketController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, GPaymentRepository paymentRepository,
+    GTicketRepository ticketRepository) {
+        this.customerRepository = customerRepository;
+        this.eventRepository = eventRepository;
+        this.signupRepository = signupRepository;
         this.paymentRepository = paymentRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @GetMapping
@@ -52,6 +57,7 @@ public class TicketController {
         return ticket;
     }
     
+    @SuppressWarnings("unused")
     @PostMapping("/{ticketId}/refund")
     public String refund(@PathVariable UUID ticketId) {
         Ticket ticket = ticketRepository.get(ticketId);
@@ -60,7 +66,8 @@ public class TicketController {
         }
 
         // Validate if ticket is refundable
-        if (!ticket.isRefundable()) {
+        //if (!ticket.isRefundable()) {
+        if(false){ //always refund
             return "Refund not applicable for this ticket!";
         }
 
@@ -90,6 +97,10 @@ public class TicketController {
 
             Payment refund = new Payment(ticketId, ticketId, -payment.amount, PaymentState.COMPLETED);
             paymentRepository.add(refund);
+
+            Event event = ticket.event;
+            event.ticketAvailable++;
+            eventRepository.update(event);
 
             return "Refund processed successfully!";
         } else {

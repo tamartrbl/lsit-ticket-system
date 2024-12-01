@@ -13,10 +13,10 @@ public class EventController {
     private final GCustomerRepository customerRepository;
     private final GEventRepository eventRepository;
     private final SignupRepository signupRepository;
-    private final PaymentRepository paymentRepository;
+    private final GPaymentRepository paymentRepository;
     private final GTicketRepository ticketRepository;
 
-    public EventController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
+    public EventController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, GPaymentRepository paymentRepository,
     GTicketRepository ticketRepository) {
         this.customerRepository = customerRepository;
         this.eventRepository = eventRepository;

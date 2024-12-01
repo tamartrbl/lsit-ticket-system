@@ -16,10 +16,10 @@ public class CustomerController {
     private final GCustomerRepository customerRepository;
     private final GEventRepository eventRepository;
     private final SignupRepository signupRepository;
-    private final PaymentRepository paymentRepository; // Add this
+    private final GPaymentRepository paymentRepository; // Add this
     private final GTicketRepository ticketRepository;
 
-    public CustomerController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, PaymentRepository paymentRepository,
+    public CustomerController(GCustomerRepository customerRepository, GEventRepository eventRepository, SignupRepository signupRepository, GPaymentRepository paymentRepository,
     GTicketRepository ticketRepository) {
         this.customerRepository = customerRepository;
         this.eventRepository = eventRepository;
