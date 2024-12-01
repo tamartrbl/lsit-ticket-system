@@ -7,7 +7,9 @@ import com.example.Repositories.CustomerRepository;
 import com.example.Repositories.NotificationRepository;
 import com.example.Repositories.PaymentRepository;
 import com.example.Repositories.TicketRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -70,13 +72,13 @@ public class NotificationController {
         return "Customer has been notified about the refund status.";
     }
 
-    @GetMapping("/lastNotification")
+    @GetMapping("/lastCustomerNotification")
     public Notification getCustomerLastNotification(@RequestParam UUID customerId) {
         Notification lastNotification = notificationRepository.getCustomerLastNotification(customerId);
 
-//        if (lastNotification == null) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No notifications found for the given customer.");
-//        }
+        if (lastNotification == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No notifications found for the given customer.");
+        }
 
         return lastNotification;
     }
@@ -117,4 +119,14 @@ public class NotificationController {
 
         return String.format("Notifications generated for %d payments.", filteredPayments.size());
     }
+
+    @GetMapping("/allCustomerNotifications")
+    public List<Notification> getAllCustomerNotifications(@RequestParam UUID customerId) {
+        List<Notification> allNotifications = notificationRepository.getAllNotificationsFromCustomer(customerId);
+        if (allNotifications.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No notifications found for the given customer.");
+        }
+        return allNotifications;
+    }
+
 }

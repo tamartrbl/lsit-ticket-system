@@ -47,4 +47,15 @@ public class NotificationRepository {
             addNotification(notification);
         }
     }
+
+    public List<Notification> getAllNotificationsFromCustomer(UUID customerId) {
+        List<Notification> customerNotifications = new ArrayList<>();
+        for (Notification notification : notifications.values()) {
+            if (notification.customerId.equals(customerId)) {
+                customerNotifications.add(notification);
+            }
+        }
+        return customerNotifications;
+    }
+
 }
