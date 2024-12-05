@@ -3,10 +3,7 @@ package com.example.Controllers;
 import com.example.Models.Notification;
 import com.example.Models.Payment;
 import com.example.Models.Ticket;
-import com.example.Repositories.CustomerRepository;
-import com.example.Repositories.NotificationRepository;
-import com.example.Repositories.PaymentRepository;
-import com.example.Repositories.TicketRepository;
+import com.example.Repositories.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,13 +14,13 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/notifications")
 public class NotificationController {
-    private final NotificationRepository notificationRepository;
-    private final TicketRepository ticketRepository;
-    private final PaymentRepository paymentRepository;
+    private final GNotificationRepository notificationRepository;
+    private final GTicketRepository ticketRepository;
+    private final GPaymentRepository paymentRepository;
 
-    private final CustomerRepository customerRepository;
+    private final GCustomerRepository customerRepository;
 
-    public NotificationController(NotificationRepository notificationRepository, TicketRepository ticketRepository, PaymentRepository paymentRepository, CustomerRepository customerRepository) {
+    public NotificationController(GNotificationRepository notificationRepository, GTicketRepository ticketRepository, GPaymentRepository paymentRepository, GCustomerRepository customerRepository) {
         this.notificationRepository = notificationRepository;
         this.ticketRepository = ticketRepository;
         this.paymentRepository = paymentRepository;
