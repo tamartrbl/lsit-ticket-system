@@ -98,7 +98,7 @@ public class TicketController {
             Payment refund = new Payment(ticketId, ticketId, -payment.amount, PaymentState.COMPLETED);
             paymentRepository.add(refund);
 
-            Event event = ticket.event;
+            Event event = eventRepository.get(ticketId);
             event.ticketAvailable++;
             eventRepository.update(event);
 
