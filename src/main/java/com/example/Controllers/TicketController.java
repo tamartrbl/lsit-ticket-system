@@ -32,26 +32,22 @@ public class TicketController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('EventManager')")
     public List<Ticket> list() {
         return ticketRepository.list();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('EventManager')")
     public Ticket get(@PathVariable UUID id) {
         return ticketRepository.get(id);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('EventManager', 'Customer')")
     public Ticket add(@RequestBody Ticket ticket) {
         ticketRepository.add(ticket);
         return ticket;
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('EventManager')")
     public void delete(@PathVariable UUID id) {
         ticketRepository.remove(id);
     }
@@ -65,7 +61,6 @@ public class TicketController {
     
     @SuppressWarnings("unused")
     @PostMapping("/{ticketId}/refund")
-    @PreAuthorize("hasRole('EventManager')")
     public String refund(@PathVariable UUID ticketId) {
         Ticket ticket = ticketRepository.get(ticketId);
         if (ticket == null) {

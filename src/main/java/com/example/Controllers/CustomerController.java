@@ -5,7 +5,9 @@ package com.example.Controllers;
         import com.example.Models.Payment;
         import com.example.Models.Ticket;
         import com.example.Repositories.*;
-        import org.springframework.web.bind.annotation.*;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
         import java.util.List;
         import java.util.UUID;
@@ -29,22 +31,26 @@ public class CustomerController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('Customer')")
     public List<Customer> list() {
         return customerRepository.list();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('Customer')")
     public Customer get(@PathVariable UUID id) {
         return customerRepository.get(id);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('Customer')")
     public Customer add(@RequestBody Customer customer) {
         customerRepository.add(customer);
         return customer;
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('Customer')")
     public Customer update(@PathVariable UUID id, @RequestBody Customer customer) {
         customer.id = id;
         customerRepository.update(customer);
@@ -52,11 +58,13 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Customer')")
     public void delete(@PathVariable UUID id) {
         customerRepository.remove(id);
     }
 
     @PostMapping("/{customerId}/signup/{eventId}")
+    @PreAuthorize("hasRole('Customer')")
     public String signup(@PathVariable UUID customerId, @PathVariable UUID eventId) {
         Customer customer = customerRepository.get(customerId);
         Event event = eventRepository.get(eventId);
@@ -111,12 +119,14 @@ public class CustomerController {
     }
 
     @PostMapping("/{customerId}/leave/{eventId}")
+    @PreAuthorize("hasRole('Customer')")
     public String leave(@PathVariable UUID customerId, @PathVariable UUID eventId) {
         signupRepository.leave(customerId, eventId);
         return "Customer removed from the event!";
     }
 
     @GetMapping("/{customerId}/events")
+    @PreAuthorize("hasRole('Customer')")
     public List<UUID> getSignedUpEvents(@PathVariable UUID customerId) {
         return signupRepository.getSignedUpEvents(customerId);
     }

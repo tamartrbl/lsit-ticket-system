@@ -26,7 +26,7 @@ public class Config {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/events/**").hasAnyRole("EventManager", "Customer")
                 .requestMatchers("/notifications/**").hasRole("Marketing")
-                .requestMatchers("/signups/**").hasRole("Customer")
+                .requestMatchers("/customers/**").hasRole("Customer")
                 .anyRequest().authenticated()
         )
         .oauth2Login(oauth2 -> oauth2
