@@ -2,7 +2,6 @@ package com.example.Repositories;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,7 +35,6 @@ public class Config {
         return http.build();
     }
 
-
     private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
         return userRequest -> {
             OAuth2User oauth2User = new DefaultOAuth2UserService().loadUser(userRequest);
@@ -44,12 +42,14 @@ public class Config {
             Set<SimpleGrantedAuthority> authorities = oauth2User.getAuthorities().stream()
                     .map(authority -> {
                         String groupName = authority.getAuthority();
-                        if ("Event".equalsIgnoreCase(groupName)) {
-                            return new SimpleGrantedAuthority("ROLE_EventManager");
-                        } else if ("Marketing".equalsIgnoreCase(groupName)) {
-                            return new SimpleGrantedAuthority("ROLE_Marketing");
+                        switch (groupName) {
+                            case "lsit-ken3239/roles/ticket_system/ticket_event_manager":
+                                return new SimpleGrantedAuthority("ROLE_EventManager");
+                            case "lsit-ken3239/roles/ticket_system/ticket_marketing":
+                                return new SimpleGrantedAuthority("ROLE_Marketing");
+                            default:
+                                return new SimpleGrantedAuthority("ROLE_Customer");
                         }
-                        return null;
                     })
                     .filter(auth -> auth != null)
                     .collect(Collectors.toSet());
