@@ -2,6 +2,8 @@ package com.example.Controllers;
 
 import com.example.Models.Event;
 import com.example.Repositories.*;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,22 +28,26 @@ public class EventController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('EventManager', 'Customer')")
     public List<Event> list() {
         return eventRepository.list();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('EventManager', 'Customer')")
     public Event get(@PathVariable UUID id) {
         return eventRepository.get(id);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('EventManager')")
     public Event add(@RequestBody Event event) {
         eventRepository.add(event);
         return event;
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('EventManager')")
     public void delete(@PathVariable UUID id) {
         eventRepository.remove(id);
     }

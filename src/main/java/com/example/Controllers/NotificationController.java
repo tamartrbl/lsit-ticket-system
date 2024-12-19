@@ -5,6 +5,7 @@ import com.example.Models.Payment;
 import com.example.Models.Ticket;
 import com.example.Repositories.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,12 +29,14 @@ public class NotificationController {
     }
 
     @PostMapping("/notifyAllCustomers")
+    @PreAuthorize("hasRole('Marketing')")
     public String notifyNewEvent(@RequestParam String message) {
         notificationRepository.notifyAllCustomers(message);
         return "All customers have been notified of the new event.";
     }
 
     @PostMapping("/paymentStatus")
+    @PreAuthorize("hasRole('Marketing')")
     public String notifyPaymentStatus(@RequestParam UUID paymentId) {
         Payment payment = paymentRepository.get(paymentId);
         if (payment == null) {
@@ -52,6 +55,7 @@ public class NotificationController {
     }
 
     @PostMapping("/refundStatus")
+    @PreAuthorize("hasRole('Marketing')")
     public String notifyRefundStatus(@RequestParam UUID ticketId) {
         Ticket ticket = ticketRepository.get(ticketId);
         if (ticket == null) {
@@ -70,6 +74,7 @@ public class NotificationController {
     }
 
     @GetMapping("/lastCustomerNotification")
+    @PreAuthorize("hasRole('Marketing')")
     public Notification getCustomerLastNotification(@RequestParam UUID customerId) {
         Notification lastNotification = notificationRepository.getCustomerLastNotification(customerId);
 
@@ -81,6 +86,7 @@ public class NotificationController {
     }
 
     @PostMapping("/notifyPayments")
+    @PreAuthorize("hasRole('Marketing')")
     public String notifyPayments(@RequestParam String startTime, @RequestParam String endTime, @RequestParam Payment.PaymentState status, @RequestParam int paymentType // 0 for payment, 1 for refund
     ) {
         // Parse the time range from String to instant object
@@ -118,6 +124,7 @@ public class NotificationController {
     }
 
     @GetMapping("/allCustomerNotifications")
+    @PreAuthorize("hasRole('Marketing')")
     public List<Notification> getAllCustomerNotifications(@RequestParam UUID customerId) {
         List<Notification> allNotifications = notificationRepository.getAllNotificationsFromCustomer(customerId);
         if (allNotifications.isEmpty()) {
