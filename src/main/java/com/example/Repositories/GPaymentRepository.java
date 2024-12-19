@@ -2,6 +2,7 @@ package com.example.Repositories;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,24 +33,27 @@ public class GPaymentRepository implements IPaymentRepository {
     }
 
     private Storage initializeStorage() {
-        try {
-            String credentialsFilePath = "lsit-ticket-system/src/main/resources/credentials.txt";
-            String credentialsJson = new String(Files.readAllBytes(Paths.get(credentialsFilePath)));
+    try {
+        // Use ClassLoader to load the file from the resources folder
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("credentials.txt");
 
-            // Parse the JSON string into GoogleCredentials
-            GoogleCredentials credentials = ServiceAccountCredentials.fromStream(
-                    new ByteArrayInputStream(credentialsJson.getBytes(StandardCharsets.UTF_8))
-            );
-
-            // Build and return the Google Cloud Storage service
-            return StorageOptions.newBuilder()
-                    .setCredentials(credentials)
-                    .build()
-                    .getService();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to initialize Google Cloud Storage", e);
+        if (inputStream == null) {
+            throw new RuntimeException("Failed to find credentials.txt in resources folder");
         }
+
+        // Parse the InputStream into GoogleCredentials
+        GoogleCredentials credentials = ServiceAccountCredentials.fromStream(inputStream);
+
+        // Build and return the Google Cloud Storage service
+        return StorageOptions.newBuilder()
+                .setCredentials(credentials)
+                .build()
+                .getService();
+    } catch (IOException e) {
+        throw new RuntimeException("Failed to initialize Google Cloud Storage", e);
     }
+}
+
 
     @Override
     public void add(Payment payment) {
